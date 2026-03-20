@@ -2,10 +2,6 @@
 
 import os
 
-# Reduce TensorFlow / MediaPipe C++ log noise in runtime.
-os.environ.setdefault('TF_CPP_MIN_LOG_LEVEL', '2')  # Hide INFO/WARNING from TF runtime.
-os.environ.setdefault('GLOG_minloglevel', '2')  # Hide INFO/WARNING from MediaPipe C++.
-
 import cv2
 import mediapipe as mp
 import rclpy
