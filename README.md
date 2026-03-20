@@ -54,6 +54,12 @@ ros2 launch xarm_gazebo lite6_beside_table_gazebo.launch.py
 ros2 run visual_cobot visual_control_sim --ros-args -p use_sim_time:=true
 ```
 
+O con un solo launch:
+
+```bash
+ros2 launch visual_cobot visual_control_sim.launch.py
+```
+
 Nota:
 
 - `visual_control_sim` usa `/lite6_traj_controller/follow_joint_trajectory`.
