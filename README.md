@@ -6,6 +6,7 @@ Paquete ROS 2 en Python para reconocimiento de gestos de mano con MediaPipe y co
 
 - `visual_cobot/gesture_recognition.py`: detecta gestos de mano desde una imagen y publica resultados en ROS 2.
 - `visual_cobot/visual_control.py`: recibe gestos y ejecuta acciones sobre el gripper y el robot.
+- `visual_cobot/visual_control_sim.py`: recibe gestos y se conecta al Lite6 simulado en Gazebo.
 - `launch/gesture_recognition.launch.py`: launch para el nodo de reconocimiento.
 - `config/gesture_recognizer.task`: modelo de MediaPipe usado por el reconocedor.
 
@@ -16,6 +17,8 @@ Paquete ROS 2 en Python para reconocimiento de gestos de mano con MediaPipe y co
 - `cv_bridge`
 - `sensor_msgs`
 - `std_msgs`
+- `control_msgs`
+- `trajectory_msgs`
 - `ament_index_python`
 - `opencv-python`
 - `mediapipe`
@@ -43,6 +46,18 @@ Ejecutar control del robot:
 ```bash
 ros2 run visual_cobot visual_control
 ```
+
+Ejecutar control para simulacion en Gazebo:
+
+```bash
+ros2 launch xarm_gazebo lite6_beside_table_gazebo.launch.py
+ros2 run visual_cobot visual_control_sim --ros-args -p use_sim_time:=true
+```
+
+Nota:
+
+- `visual_control_sim` usa `/lite6_traj_controller/follow_joint_trajectory`.
+- En `xarm_ros2`, el gripper del `lite6` no queda expuesto en Gazebo, asi que los gestos de abrir/cerrar se registran como `no-op`.
 
 ## Topics
 

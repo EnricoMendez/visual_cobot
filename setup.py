@@ -29,6 +29,7 @@ setup(
         'console_scripts': [
             'gesture_recognition = visual_cobot.gesture_recognition:main',
             'visual_control = visual_cobot.visual_control:main',
+            'visual_control_sim = visual_cobot.visual_control_sim:main',
         ],
     },
 )
