@@ -12,7 +12,7 @@ class VisualControl(Node):
         self.declare_parameter('gesture_topic', '/hand/gesture')
         self.declare_parameter('position_topic', '/hand/position')
         self.declare_parameter('speed', 80.0)
-        self.declare_parameter('z_step', 40.0)
+        self.declare_parameter('z_step', 20.0)
         self.declare_parameter('move_wait', False)
         self.declare_parameter('move_cooldown_sec', 1.0)
 
@@ -51,7 +51,7 @@ class VisualControl(Node):
 
         self.get_logger().info('Moving to home and opening gripper...')
         self.start_cartesian_move(self.home)
-        self.call_gripper('open')
+        self.call_gripper('off')
 
         # Subscriber: receives the gesture detected by the vision node.
         self.create_subscription(String, self.gesture_topic, self.gesture_callback, 10)
@@ -221,10 +221,10 @@ class VisualControl(Node):
         if not self.active_gesture == 'pointing_up': return
         try:
             x_str, y_str = msg.data.split(',')
-            x = float(x_str.strip())
-            y = float(y_str.strip())
-            self.current_pose[0] = x * 100 + 150
-            self.current_pose[1] = y * 100
+            y = float(x_str.strip())
+            x = float(y_str.strip())
+            self.current_pose[0] = ((1-x) * 200 + 150)
+            self.current_pose[1] = ((y * 200) * 1) -100
             # self.get_logger().info(f'Updated position from vision: x={self.current_pose[0]}, y={self.current_pose[1]}', throttle_duration_sec=1.0)
         except Exception as exc:
             self.get_logger().error(f'Failed to parse position message: {msg.data}, error: {exc}')
@@ -250,7 +250,7 @@ class VisualControl(Node):
             return
 
         # Ignore empty gestures and repeated gestures.
-        if not self.active_gesture or self.active_gesture == self.last_gesture:
+        if (not self.active_gesture or self.active_gesture == self.last_gesture) and self.active_gesture != 'pointing_up':
             return
 
         # Translate each recognized gesture into a gripper action.
@@ -269,7 +269,9 @@ class VisualControl(Node):
             self.start_cartesian_move(self.build_pose_from_current(-self.z_step))
         elif self.active_gesture == 'pointing_up':
             self.start_cartesian_move(self.current_pose)
-            pass
+        elif self.active_gesture == 'victory':
+            # self.initialize_robot()
+            self.start_cartesian_move(self.home)
             
         # Save the gesture so we only react again when it changes.
         self.last_gesture = self.active_gesture

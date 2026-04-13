@@ -156,11 +156,13 @@ class GestureRecognition(Node):
                 gesture_name = str(result.gestures[0][0].category_name)
 
             gesture_msg.data = gesture_name
-            position_msg.data = str(landmark)
+            position_msg.data = str('{},{}'.format(landmark.x,landmark.y))
             x_msg.data = round(float(landmark.x), 4)
             y_msg.data = round(float(landmark.y), 4)
             annotated_image = self.draw_result(self.cv_image, result)
 
+        
+        annotated_image = cv2.flip(annotated_image, 1)
         annotated_image_msg = self.bridge.cv2_to_imgmsg(annotated_image, encoding='bgr8')
         if self.last_image_header is not None:
             annotated_image_msg.header = self.last_image_header

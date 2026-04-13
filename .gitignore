@@ -12,6 +12,7 @@ log/
 .ruff_cache/
 
 .DS_Store
+.codex
 
 *.swp
 *.swo
