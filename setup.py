@@ -12,6 +12,7 @@ setup(
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         ('share/' + package_name + '/config', glob('config/*.task')),
+        ('share/' + package_name + '/config', glob('config/*.rviz')),
         ('share/' + package_name + '/launch', glob('launch/*.launch.py'))
     ],
     install_requires=['setuptools'],
@@ -30,7 +31,6 @@ setup(
             'gesture_recognition = visual_cobot.gesture_recognition:main',
             'visual_control = visual_cobot.visual_control:main',
             'full_visual_control = visual_cobot.full_visual_control:main',
-            'visual_control_sim = visual_cobot.visual_control_sim:main',
         ],
     },
 )

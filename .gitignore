@@ -19,3 +19,4 @@ log/
 
 launch/__pycache__/
 visual_cobot/__pycache__/
+visual_cobot/full_visual_control.py
