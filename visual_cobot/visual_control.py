@@ -150,24 +150,9 @@ class VisualControl(Node):
         state_req.data = 0
         self._call_and_wait(self.set_state_client, state_req, '/ufactory/set_state')
 
-    def normalize_gesture(self, raw: str) -> str:
-        # Convert different spellings of the same gesture to one common name.
-        text = raw.strip().lower().replace('-', ' ').replace('_', ' ')
-        aliases = {
-            'closed fist': 'closed_fist',
-            'fist': 'closed_fist',
-            'puño cerrado': 'closed_fist',
-            'puno cerrado': 'closed_fist',
-            'open palm': 'open_palm',
-            'open hand': 'open_palm',
-            'mano abierta': 'open_palm',
-            'mano apierta': 'open_palm',
-        }
-        return aliases.get(text, text.replace(' ', '_'))
-
     def gesture_callback(self, msg: String):
         # Save the last gesture reported by the vision system.
-        self.active_gesture = self.normalize_gesture(msg.data)
+        self.active_gesture = msg.data.lower() #self.normalize_gesture(msg.data)
 
     def send_cartesian(self, pose):
         # Move the robot TCP to a Cartesian pose.
