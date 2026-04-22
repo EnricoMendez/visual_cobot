@@ -20,3 +20,5 @@ log/
 launch/__pycache__/
 visual_cobot/__pycache__/
 visual_cobot/full_visual_control.py
+visual_cobot/mp_env
+visual_cobot/visual_cobot/mp_env
